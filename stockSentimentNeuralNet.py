@@ -62,20 +62,20 @@ def stockNeuralNet():
                            output_dim=embedding_dim, 
                            input_length=maxlen))
   model.add(layers.Flatten())
-  model.add(layers.Dense(10, activation='relu'))
+  model.add(layers.Dense(10, activation='sigmoid'))
   model.add(layers.Dense(1, activation='sigmoid'))
-  model.compile(optimizer='adam',
-              loss='binary_crossentropy',
+  model.compile(optimizer='rmsprop',
+              loss='categorical_crossentropy',
               metrics=['accuracy'])
   
   #training
   history = model.fit(X_train, y_train,
-                    epochs=20,
+                    epochs=10,
                     verbose=False,
                     validation_data=(X_test, y_test),
                     batch_size=10)
   #testing
   loss, accuracy = model.evaluate(X_test, y_test, verbose=False)
-  print("Testing Accuracy:  {:.4f}".format(accuracy))
+  print("Testing Accuracy for the StockSentiment Prediction model:  {:.4f}".format(accuracy*100))
 
 stockNeuralNet()
